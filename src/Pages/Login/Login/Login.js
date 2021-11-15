@@ -21,8 +21,8 @@ const Login = () => {
         loginUser(loginData.email, loginData.password, location, history);
         e.preventDefault();
     }
-    const handleGoogleSignIn = (location, history) =>{
-        signInWithGoogle();
+    const handleGoogleSignIn = () =>{
+        signInWithGoogle(location, history);
     }
     return (
         <Container>
