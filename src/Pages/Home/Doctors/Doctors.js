@@ -1,22 +1,30 @@
-import React from 'react';
-import Swiper from 'react-slider-swiper';
+import { Container, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import Doctor from '../Doctor/Doctor';
 
 const Doctors = () => {
-    const params = {
-        pagination: '.swiper-pagination',
-        paginationClickable: true,
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        spaceBetween: 30
-    }
+    const [doctors, setDoctors] = useState([]);
+
+    useEffect(() => {
+        fetch('https://peaceful-badlands-73094.herokuapp.com/doctors')
+            .then(res => res.json())
+            .then(data => setDoctors(data))
+    }, [])
+
     return (
-        <Swiper {...params}>
-            <div>Slide 1</div>
-            <div>Slide 2</div>
-            <div>Slide 3</div>
-            <div>Slide 4</div>
-            <div>Slide 5</div>
-        </Swiper>
+        <div>
+            <h2>Our Doctors: {doctors.length}</h2>
+            <Container>
+                <Grid container spacing={2}>
+                    {
+                        doctors.map(doctor => <Doctor
+                            key={doctor._id}
+                            doctor={doctor}
+                        ></Doctor>)
+                    }
+                </Grid>
+            </Container>
+        </div>
     );
 };
 
