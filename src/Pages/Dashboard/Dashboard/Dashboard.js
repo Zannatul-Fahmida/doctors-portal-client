@@ -17,17 +17,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import {
-    Switch,
-    Route,
-    Link,
-    useRouteMatch
+    Outlet,
+    Link
 } from "react-router-dom";
-import DashboardHome from '../DashboardHome/DashboardHome';
-import MakeAdmin from '../MakeAdmin/MakeAdmin';
-import AddDoctor from '../AddDoctor/AddDoctor';
 import useAuth from '../../../hooks/useAuth';
-import AdminRoute from '../../Login/AdminRoute/AdminRoute';
-import Payment from '../Payment/Payment';
 
 const drawerWidth = 200;
 
@@ -35,7 +28,6 @@ function Dashboard(props) {
     const { window } = props;
     const { admin } = useAuth();
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    let { path, url } = useRouteMatch();
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -48,14 +40,14 @@ function Dashboard(props) {
             <Link style={{ textDecoration: 'none' }} to="/appointment">
                 <Button color="inherit">Appointment</Button>
             </Link>
-            <Link style={{ textDecoration: 'none' }} to={`${url}`}>
+            <Link style={{ textDecoration: 'none' }} to="/dashboard">
                 <Button color="inherit">Dashboard</Button>
             </Link>
             {admin && <Box>
-                <Link style={{ textDecoration: 'none' }} to={`${url}/makeAdmin`}>
+                <Link style={{ textDecoration: 'none' }} to="/dashboard/makeAdmin">
                     <Button color="inherit">Make Admin</Button>
                 </Link>
-                <Link style={{ textDecoration: 'none' }} to={`${url}/addDoctor`}>
+                <Link style={{ textDecoration: 'none' }} to="/dashboard/addDoctor">
                     <Button color="inherit">Add Doctor</Button>
                 </Link>
             </Box>}
@@ -135,20 +127,7 @@ function Dashboard(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Switch>
-                    <Route exact path={path}>
-                        <DashboardHome></DashboardHome>
-                    </Route>
-                    <Route path={`${path}/payment/:appointmentId`}>
-                        <Payment></Payment>
-                    </Route>
-                    <AdminRoute path={`${path}/makeAdmin`}>
-                        <MakeAdmin></MakeAdmin>
-                    </AdminRoute>
-                    <AdminRoute path={`${path}/addDoctor`}>
-                        <AddDoctor></AddDoctor>
-                    </AdminRoute>
-                </Switch>
+                <Outlet></Outlet>
             </Box>
         </Box>
     );
